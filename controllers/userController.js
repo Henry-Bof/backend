@@ -271,6 +271,7 @@ const registerUser = async (req, res) => {
   const offerDescription = req.body.offerDescription;
   const registrationDate = +new Date();
   const comment = req.body.comment;
+  const ballance = '0';
   const existingUser = await User.findAll({
     where: {
       email: email,
@@ -298,7 +299,8 @@ const registerUser = async (req, res) => {
         offerUrl,
         offerDescription,
         registrationDate,
-        comment
+        comment,
+        ballance
       });
 
       return res.status(200).json({
@@ -316,7 +318,8 @@ const registerUser = async (req, res) => {
         phone,
         password: hashedPassword,
         registrationDate,
-        comment
+        comment,
+        ballance
       });
       return res.status(200).json({
         success: true,
