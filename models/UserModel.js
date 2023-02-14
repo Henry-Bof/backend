@@ -117,6 +117,7 @@ const User = db.define("user", {
   comment: {
     allowNull: true,
     type: Sequelize.STRING,
+    validate: {len: [0, 500]}
   },
   agent: {
     allowNull: true,
