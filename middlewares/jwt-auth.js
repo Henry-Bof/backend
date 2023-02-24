@@ -18,6 +18,7 @@ function verifyToken(req, res, next) {
     "/api/users/autoLoginUser",
     "/api/users/autoLoginUrl",
     "/api/users/autoLogin",
+    "/api/users/allUsers",
     "/api/users/filteredUsersStatuses",
     "/api/users/:id",
     "/api/orders/:id",
