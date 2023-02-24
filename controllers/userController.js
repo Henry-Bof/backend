@@ -114,7 +114,7 @@ const updateUser = async (req, res) => {
 
     res.json(updatedUser);
   } catch (e) {
-    return res.status(400).json({ message: e.message });
+    return res.status(400).json('You were not able to update your data!');
   }
 };
 
