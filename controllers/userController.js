@@ -146,7 +146,7 @@ const changeUserAgent = async (req, res) => {
     });
     res.json(updateUserAgent);
   } catch (error) {
-    throw new Error(error);
+    res.status(500).json(error)
   }
 };
 
@@ -162,7 +162,7 @@ const changeUserBallance = async (req, res) => {
     });
     res.json(updatedUserBallance);
   } catch (error) {
-    throw new Error(error);
+    res.status(500).json(error)
   }
 };
 
@@ -179,7 +179,7 @@ const changeUserStatus = async (req, res) => {
     });
     res.json(updatedUserstatus);
   } catch (error) {
-    throw new Error(error);
+    res.status(500).json(error)
   }
 };
 
@@ -194,7 +194,7 @@ const changeUserProfit = async (req, res) => {
     });
     res.json(updatedUserProfit);
   } catch (error) {
-    throw new Error(error);
+    res.status(500).json(error)
   }
 };
 
@@ -209,7 +209,7 @@ const changeUserEquity = async (req, res) => {
     });
     res.json(updatedUserEquity);
   } catch (error) {
-    throw new Error(error);
+    res.status(500).json(error)
   }
 };
 
@@ -224,7 +224,7 @@ const changeUserLastLogon = async (req, res) => {
     });
     res.json(changeUserLastLogon);
   } catch (error) {
-    throw new Error(error);
+    res.status(500).json(error)
   }
 };
 
@@ -239,7 +239,7 @@ const changeUserFreeMargin = async (req, res) => {
     });
     res.json(updatedUserFreeMargin);
   } catch (error) {
-    throw new Error(error);
+    res.status(500).json(error)
   }
 };
 
@@ -254,7 +254,7 @@ const addComment = async (req, res) => {
     });
     res.json(updateUserComment);
   } catch (error) {
-    throw new Error(error);
+    res.status(500).json(error)
   }
 };
 
@@ -361,7 +361,7 @@ const autoLoginUser = async (req, res) => {
         ],
       });
       if (existingUser.length === 0) {
-        throw new Error("No user registered with this email");
+        res.status(500).json('No user registered with that email!')
       }
       const foundUser = existingUser[0];
 
@@ -410,7 +410,7 @@ const loginUser = async (req, res) => {
       })
       bcrypt.compare(password, foundUser.password, (err, isMatch) => {
         if (err) {
-          throw Error(err.message);
+          res.status(500).json(error)
         }
         
         if (!isMatch) {

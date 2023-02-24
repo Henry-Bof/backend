@@ -139,8 +139,8 @@ const getBidAndAskPrices = async (req, res) => {
       }
       return data;
     });
-  } catch (err) {
-    throw new Error(err);
+  } catch (error) {
+    res.status(500).json(error)
   }
 };
 
