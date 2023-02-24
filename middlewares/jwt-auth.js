@@ -1,7 +1,7 @@
 JWT = require("jsonwebtoken");
 
 function generateAccessToken(user) {
-  return JWT.sign(user, process.env.JWTSECRET, { expiresIn: '1200' });
+  return JWT.sign(user, process.env.JWTSECRET, { expiresIn: "10h" });
 }
 // asd
 // currently not in use
@@ -35,23 +35,16 @@ function verifyToken(req, res, next) {
   const authHeader = req.header("authorization");
   const authToken = authHeader && authHeader.split(" ")[1];
 
+  console.log(authToken);
   if (authToken == null) return res.status(401).json("ACCESS DENIED");
 
-  try {
-    const response = JWT.verify(authToken, process.env.JWTSECRET, (error, user) => {
-      if (error) { return 'token expired' }
-      
-
-      req.user = user;
-      next();
-    });
-    if (response === 'token expired') {
-      return res.send({status: 'error', data: 'token expired'})
-    }
-  } catch (error) {
-    return res.status(500).json(error)
-  }
   // verify the token
+  JWT.verify(authToken, process.env.JWTSECRET, (error, user) => {
+    if (error) return res.status(403).json("SESSION EXPIRED! Please logout and login again.");
+    
+    req.user = user;
+    next();
+  });
 }
 
 module.exports = {
