@@ -14,26 +14,25 @@ const getUsers = async (req, res) => {
     const users = await User.findAll();
     res.json(users);
   } catch (error) {
-    return res.status(400).json({ message: error.message });
+    return res.status(500).json('Could not get all available users!');
   }
 };
 
 const deleteUser = async (req, res) => {
   const id = req.params.id;
-  let allRegisteredUsers = User.destroy({
-    where: { id: id },
-  });
   try {
-    const user = await User.findByPk(id);
-    if (user) {
-      allRegisteredUsers = allRegisteredUsers.filter(
-        (registeredUser) => registeredUser.id !== user.id
-      );
-      res.json(user);
+    const allRegisteredUsers = User.destroy({
+      where: { id: id },
+      force: true,
+    });
+    if(allRegisteredUsers === 0) {
+      return res.status(500).json('User with that ID was not found!')
     }
+      res.status(500).json(`You have successfully deleted user with id ${id}`);
   } catch (error) {
-    return res.status(400).json({ message: error.message });
+    return res.status(500).json('Could not delete this user!');
   }
+
 };
 
 const getUser = async (req, res) => {
@@ -56,7 +55,7 @@ const getUser = async (req, res) => {
     });
     res.json(user);
   } catch (e) {
-    return res.status(400).json({ message: e.message });
+    return res.status(500).json(`Could not fetch user with id ${id}`);
   }
 };
 
@@ -114,7 +113,7 @@ const updateUser = async (req, res) => {
 
     res.json(updatedUser);
   } catch (e) {
-    return res.status(400).json('You were not able to update your data!');
+    return res.status(500).json(`You were not able to update this user data!`);
   }
 };
 
@@ -131,7 +130,7 @@ const changeUserPassword = async (req, res) => {
 
     res.json(updatedUser);
   } catch (e) {
-    return res.status(400).json({ message: e.message });
+    return res.status(500).json('Failed to change your password!');
   }
 };
 
@@ -146,7 +145,7 @@ const changeUserAgent = async (req, res) => {
     });
     res.json(updateUserAgent);
   } catch (error) {
-    res.status(500).json(error)
+    res.status(500).json('Failed to change agent!')
   }
 };
 
@@ -162,7 +161,7 @@ const changeUserBallance = async (req, res) => {
     });
     res.json(updatedUserBallance);
   } catch (error) {
-    res.status(500).json(error)
+    res.status(500).json('Failed to change user balance!')
   }
 };
 
@@ -179,7 +178,7 @@ const changeUserStatus = async (req, res) => {
     });
     res.json(updatedUserstatus);
   } catch (error) {
-    res.status(500).json(error)
+    res.status(500).json('Failed to change user status!')
   }
 };
 
@@ -194,7 +193,7 @@ const changeUserProfit = async (req, res) => {
     });
     res.json(updatedUserProfit);
   } catch (error) {
-    res.status(500).json(error)
+    res.status(500).json('Failed to change user profit!')
   }
 };
 
@@ -209,7 +208,7 @@ const changeUserEquity = async (req, res) => {
     });
     res.json(updatedUserEquity);
   } catch (error) {
-    res.status(500).json(error)
+    res.status(500).json('Failed to change user equity!')
   }
 };
 
@@ -224,7 +223,7 @@ const changeUserLastLogon = async (req, res) => {
     });
     res.json(changeUserLastLogon);
   } catch (error) {
-    res.status(500).json(error)
+    res.status(500).json('Failed to change user last logon!')
   }
 };
 
@@ -239,7 +238,7 @@ const changeUserFreeMargin = async (req, res) => {
     });
     res.json(updatedUserFreeMargin);
   } catch (error) {
-    res.status(500).json(error)
+    res.status(500).json('Failed to change user free margin!')
   }
 };
 
@@ -254,7 +253,7 @@ const addComment = async (req, res) => {
     });
     res.json(updateUserComment);
   } catch (error) {
-    res.status(500).json(error)
+    res.status(500).json('Failed to add comment!')
   }
 };
 
@@ -279,7 +278,7 @@ const registerUser = async (req, res) => {
   });
   try {
     if (existingUser.length > 0) {
-      return res.status(400).json({ message: "This user already exists!" });
+      return res.status(500).json({ message: "This user already exists!" });
     }
 
     if (req.headers.secret) {
@@ -327,7 +326,7 @@ const registerUser = async (req, res) => {
       });
     }
   } catch (error) {
-    return res.status(400).json({ message: error.message });
+    return res.status(500).json('Failed to create user!');
   }
 };
 
@@ -341,7 +340,7 @@ const getAutoLoginUrl = async (req, res) => {
       // autoLoginUrl: `http://localhost:3000/?email=${email}`,
     });
   } catch (error) {
-    return res.status(400).json({ message: error.message });
+    return res.status(500).json('Failed to auto login!');
   }
 };
 
@@ -380,7 +379,7 @@ const autoLoginUser = async (req, res) => {
       return res.status(200).json(result);
     }
   } catch (error) {
-    return res.status(400).json({ message: error.message });
+    return res.status(500).json('Failed to auto login!');
   }
 };
 
@@ -410,7 +409,7 @@ const loginUser = async (req, res) => {
       })
       bcrypt.compare(password, foundUser.password, (err, isMatch) => {
         if (err) {
-          res.status(500).json(error)
+          res.status(500).json('Something went wrong with the password!')
         }
         
         if (!isMatch) {
@@ -432,7 +431,7 @@ const loginUser = async (req, res) => {
         });
       
   }} catch (e) {
-    return res.status(400).json({ message: e.message });
+    return res.status(500).json({ message: e.message });
   }
 };
 
@@ -455,7 +454,7 @@ const getUsersWithAffiliate = async (req, res) => {
       : user);
     res.json({ success: true, data: modifiedUsers });
   } catch (error) {
-    return res.status(400).json({ message: error.message });
+    return res.status(500).json('Could not get users with that affilaite!');
   }
 };
 
@@ -497,7 +496,7 @@ const getFilteredUsersAffiliate = async (req, res) => {
 
     res.json({ succes: true, data: modifiedUsers });
   } catch (error) {
-    return res.status(400).json({ message: error.message });
+    return res.status(500).json('Could not get filtered users by affiliate!');
   }
 };
 
@@ -536,7 +535,7 @@ const getFilteredUserStatuses = async (req, res) => {
 
     res.json({ succes: true, data: usersStatuses });
   } catch (error) {
-    return res.status(400).json({ message: error.message });
+    return res.status(500).json('Could not get filtered users statuses!');
   }
 };
 

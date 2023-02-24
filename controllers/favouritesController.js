@@ -6,7 +6,7 @@ const getFavourites = async (req, res) => {
     const favourites = await Favourites.findAll();
     res.json(favourites);
   } catch (error) {
-    return res.status(400).json({ message: error.message });
+    return res.status(500).json('Could not get all favourites!');
   }
 };
 
@@ -26,7 +26,7 @@ const updateFavourites = async (req, res) => {
     res.json(user);
     return user;
   } catch (e) {
-    return res.status(400).json({ message: e.message });
+    return res.status(500).json('Could not update favourites!');
   }
 };
 

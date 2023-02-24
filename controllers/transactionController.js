@@ -8,7 +8,7 @@ const getTransactions = async (req, res) => {
     const transactions = await Transaction.findAll();
     res.json(transactions);
   } catch (error) {
-    return res.status(400).json({ message: error.message });
+    return res.status(500).json('Could not get all transactions!');
   }
 };
 
@@ -21,7 +21,7 @@ const getUserTransactions = async (req, res) => {
     });
     res.json(transactions);
   } catch (error) {
-    return res.status(400).json({ message: error.message });
+    return res.status(500).json('Could not get this user transactions!');
   }
 };
 
@@ -40,7 +40,7 @@ const createTransaction = async (req, res) => {
       success: "Transaction" + transaction + "was created successfully!",
     });
   } catch (error) {
-    return res.status(400).json({ message: error.message });
+    return res.status(500).json('Error creating a transaction!');
   }
 };
 
@@ -61,7 +61,7 @@ const updateTransaction = async (req, res) => {
       success: `Transaction with number:${updatedTransaction.id} was updated successfully!`,
     });
   } catch (e) {
-    return res.status(400).json({ message: e.message });
+    return res.status(500).json('Error updating the transaction!');
   }
 };
 
@@ -107,7 +107,7 @@ const getTransactionsAffiliate = async (req, res) => {
 
     res.json({ succes: true, data: modifiedTransactions });
   } catch (error) {
-    return res.status(400).json({ message: error.message });
+    return res.status(500).json('Could not get affilite transactions!');
   }
 };
 

@@ -5,7 +5,7 @@ const getAffiliates = async (req, res) => {
     const data = await Affiliate.findAll();
     res.json(data);
   } catch (error) {
-    return res.status(400).json({ message: error.message });
+    return res.status(500).json('Could not get all affiliates!');
   }
 };
 const createAffiliate = async (req, res) => {
@@ -20,7 +20,7 @@ const createAffiliate = async (req, res) => {
       data: body,
     });
   } catch (error) {
-    return res.status(400).json({ message: error.message });
+    return res.status(500).json('Error creating an affiliate!');
   }
 };
 

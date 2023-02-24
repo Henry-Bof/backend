@@ -5,7 +5,7 @@ const getOrders = async (req, res) => {
     const orders = await Order.findAll();
     res.json(orders);
   } catch (error) {
-    return res.status(400).json({ message: error.message });
+    return res.status(500).json('Could not get all orders!');
   }
 };
 
@@ -18,7 +18,7 @@ const getUserOrders = async (req, res) => {
     });
     res.json(orders);
   } catch (error) {
-    return res.status(400).json({ message: error.message });
+    return res.status(500).json('Could not get this user orders!');
   }
 };
 
@@ -42,7 +42,7 @@ const createOrder = async (req, res) => {
       success: `Order with number:${order.id} was created successfully!`,
     });
   } catch (error) {
-    return res.status(400).json({ message: error.message });
+    return res.status(500).json('Error creating an order!');
   }
 };
 
@@ -71,7 +71,7 @@ const createSimulatedOrder = async (req, res) => {
       success: `Order with number:${order.id} was created successfully!`,
     });
   } catch (error) {
-    return res.status(400).json({ message: error.message });
+    return res.status(500).json('Error creating an order!');
   }
 };
 
@@ -101,7 +101,7 @@ const updateOrder = async (req, res) => {
       success: `Order with number:${updatedOrder.id} was updated successfully!`,
     });
   } catch (e) {
-    return res.status(400).json({ message: e.message });
+    return res.status(500).json('Error updating the order!');
   }
 };
 

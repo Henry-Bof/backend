@@ -140,7 +140,7 @@ const getBidAndAskPrices = async (req, res) => {
       return data;
     });
   } catch (error) {
-    res.status(500).json(error)
+    res.status(500).json('Could not start the websocket!')
   }
 };
 

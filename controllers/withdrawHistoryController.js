@@ -5,7 +5,7 @@ const getWithdrawHistory = async (req, res) => {
     const withdraw = await WithdrawHistory.findAll();
     res.json(withdraw);
   } catch (error) {
-    return res.status(400).json({ message: error.message });
+    return res.status(500).json('Could not get withdraw history!');
   }
 };
 
@@ -18,7 +18,7 @@ const getUserWithdrawHistory = async (req, res) => {
     });
     res.json(withdraw);
   } catch (error) {
-    return res.status(400).json({ message: error.message });
+    return res.status(500).json('Could not get withdraw the history of this user!');
   }
 };
 
@@ -38,7 +38,7 @@ const createWithdraw = async (req, res) => {
       success: "Withdraw" + withdraw + "was created successfully!",
     });
   } catch (error) {
-    return res.status(400).json({ message: error.message });
+    return res.status(500).json('Could not place withdraw!');
   }
 };
 
@@ -60,7 +60,7 @@ const updateWithdraw = async (req, res) => {
       success: `Withdraw with number:${updatedWithdraw.id} was updated successfully!`,
     });
   } catch (e) {
-    return res.status(400).json({ message: e.message });
+    return res.status(500).json('Error updating the withdraw!');
   }
 };
 
