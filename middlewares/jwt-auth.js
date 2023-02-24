@@ -1,7 +1,7 @@
 JWT = require("jsonwebtoken");
 
 function generateAccessToken(user) {
-  return JWT.sign(user, process.env.JWTSECRET, { expiresIn: '120' });
+  return JWT.sign(user, process.env.JWTSECRET, { expiresIn: '1200' });
 }
 // asd
 // currently not in use
