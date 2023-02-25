@@ -41,8 +41,8 @@ function verifyToken(req, res, next) {
 
   // verify the token
   JWT.verify(authToken, process.env.JWTSECRET, (error, user) => {
-    if (error) return res.status(403).json("SESSION EXPIRED! Please logout and login again.");
-    
+    if (!error) return res.status(403).json("SESSION EXPIRED! Please logout and login again.");
+    console.log(error);
     req.user = user;
     next();
   });
